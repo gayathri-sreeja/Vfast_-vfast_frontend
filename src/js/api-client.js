@@ -1,8 +1,12 @@
-// vfast-apiClient.js
-// const BASE_URL = 'https://ec2-15-207-110-230.ap-south-1.compute.amazonaws.com/api/v1'; // Replace with your actual base URL
-const BASE_URL = 'https://vfast-backend-16dd4b0bfa8f.herokuapp.com/api/v1'; // Replace with your actual base URL
-// const BASE_URL = 'https://unduly-simple-dory.ngrok-free.app/api/v1';
+const BASE_URL = 'https://vfast-backend-16dd4b0bfa8f.herokuapp.com/api/v1';
+// const BASE_URL = 'https://ec2-15-207-110-230.ap-south-1.compute.amazonaws.com/api/v1';
+// const BASE_URL = 'https://e86a-103-144-92-171.ngrok-free.app/api/v1';
 
+/**
+ * Decode a JWT token and return the payload.
+ * @param {string} token - The JWT token.
+ * @returns {object} Decoded payload of the token.
+ */
 function jwt_decode(token) {
     const payload = token.split('.')[1]; // Extract the payload part
     return JSON.parse(atob(payload)); // Decode from base64 and parse JSON
@@ -27,19 +31,24 @@ function getAuthToken() {
 /**
  * Clear the authentication token.
  */
-function clearAuthToken(token) {
+function clearAuthToken() {
     localStorage.removeItem('authToken');
 }
 
-function getUserData(){
-    return jwt_decode(getAuthToken());
+/**
+ * Get user data from the stored JWT token.
+ * @returns {object|null} The decoded user data.
+ */
+function getUserData() {
+    const token = getAuthToken();
+    return token ? jwt_decode(token) : null;
 }
 
 /**
- * Make an HTTP request to the API using jQuery's $.ajax.
+ * Make an HTTP request to the API.
  *
- * @param {string} endpoint - The API endpoint (e.g., '/api/v1/user/login').
- * @param {object} [options={}] - AJAX options.
+ * @param {string} endpoint - The API endpoint (e.g., '/user/login').
+ * @param {object} [options={}] - Fetch options.
  * @param {string} [options.method='GET'] - HTTP method (e.g., 'GET', 'POST', 'PUT', 'DELETE').
  * @param {object} [options.headers] - Additional headers to include in the request.
  * @param {object} [options.body] - The request payload to be sent as JSON.
@@ -50,7 +59,7 @@ function getUserData(){
  *
  * @example
  * // Making a POST request with authentication
- * apiRequest('/api/v1/user/login', {
+ * apiRequest('/user/login', {
  *     method: 'POST',
  *     body: { username: 'user', password: 'pass' },
  * }, true)
@@ -63,53 +72,54 @@ function getUserData(){
  */
 async function apiRequest(endpoint, options = {}, requiresAuth = false) {
     const url = `${BASE_URL}${endpoint}`;
-    const headers = Object.assign(
-        {
-            'Content-Type': 'application/json',
-        },
-        options.headers || {}
-    );
+    const headers = {
+        'Content-Type': 'application/json',
+        ...(options.headers || {})
+    };
 
     const authToken = getAuthToken();
-
     if (requiresAuth && authToken) {
         headers['Authorization'] = `Bearer ${authToken}`;
     }
 
-    // Prepare AJAX settings
-    const ajaxSettings = {
-        url: url,
+    console.log("ApiRequest - ", url);
+
+    const fetchOptions = {
         method: options.method || 'GET',
-        headers: headers,
-        data: options.body ? JSON.stringify(options.body) : null,
-        dataType: 'json', // Expect JSON response
-        contentType: 'application/json', // Send data as JSON
+        headers,
+        body: options.body ? JSON.stringify(options.body) : undefined,
     };
 
-    return $.ajax(ajaxSettings)
-        .then(function (data, textStatus, jqXHR) {
-            // Handle HTTP 204 No Content
-            if (jqXHR.status === 204) {
-                return {};
-            }
-            return data;
-        })
-        .catch(function (jqXHR, textStatus, errorThrown) {
-            let errorMessage = `Error ${jqXHR.status}: ${jqXHR.statusText}`;
+    try {
+        const response = await fetch(url, fetchOptions);
+
+        if (!response.ok) {
+            let errorMessage = `Error ${response.status}: ${response.statusText}`;
             try {
-                const errorData = JSON.parse(jqXHR.responseText);
+                const errorData = await response.json();
+                if (errorData.detail) {
+                    errorMessage = JSON.stringify(errorData.detail);
+                }
                 if (errorData.data) {
-                    errorMessage += " from server : " + JSON.stringify(errorData.data);
+                    errorMessage += " error_data : " + JSON.stringify(errorData.data);
                 }
                 if (errorData.message) {
-                    errorMessage += " from server : " + JSON.stringify(errorData.message);
+                    errorMessage += " error_message : " + JSON.stringify(errorData.message);
                 }
             } catch (e) {
-                // If response is not JSON or parsing fails, retain the default error message
-                console.log("api-client.js:108", e);
-                console.log(jqXHR.responseText);
+                console.log("Error parsing response JSON:", e);
             }
-            // Reject the promise with an Error object
-            return Promise.reject(new Error(errorMessage));
-        });
+            throw new Error(errorMessage);
+        }
+
+        // Handle HTTP 204 No Content
+        if (response.status === 204) {
+            return {};
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("apiRequest failed:", error.message);
+        throw error;
+    }
 }
