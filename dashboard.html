@@ -126,10 +126,10 @@
                                     <li><a href="contact.html">Contact</a></li>
                                 </ul>
                             </nav>
-                            <span class="login-btn">
-                                <a href="./dashboard.html" id="login-btn">
+                            <span class="login-btn" id="login-btn">
+                                <a href="./dashboard.html" >
                                     <i class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i>                
-                                    Shreyas A
+                                    Unidentified
                                 </a>
                                 &nbsp;
                                 &nbsp;
@@ -247,19 +247,6 @@
     <script defer>
         // Redirect to login if user is not logged in
         (!getAuthToken()) && window.location.replace("./login.html");
-
-        // Logout button click handle
-        $("#logout-btn").on( 
-            'click', 
-            function(e){
-                if(confirm("Do you really want to log out?")){
-                    clearAuthToken();
-                    document.location.reload();
-                }
-                else
-                    e.preventDefault();
-            }
-        )
     </script>
 </body>
 

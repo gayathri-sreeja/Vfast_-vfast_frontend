@@ -61,7 +61,24 @@ if (logged_in_user){
         <i class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i>
         ${logged_in_user.username}
     </a>
+    &nbsp;
+    &nbsp;
+    <a id="logout-btn">
+        <i class="fa fa-power-off fa-lg text-danger" aria-hidden="true"></i>
+    </a>
     `
+    // Logout button click handle
+    $("#logout-btn").on( 
+        'click', 
+        function(e){
+            if(confirm("Do you really want to log out?")){
+                clearAuthToken();
+                document.location.reload();
+            }
+            else
+                e.preventDefault();
+        }
+    )
 } else {
     if(window.location.href.includes("booking") || window.location.href.includes("dashboard")){
         window.location.href = "./login.html";
