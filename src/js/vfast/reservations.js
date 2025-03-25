@@ -1,4 +1,4 @@
-// vfast-bookings.js
+// vfast/reservations.js
 
 // /**
 //  * Get Availability Calendar
