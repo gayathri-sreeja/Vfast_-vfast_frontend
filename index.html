@@ -393,9 +393,9 @@
                         <div class="co-text">
                             <p>
                                 Copyright &copy;
-                                <script>document.write(new Date().getFullYear());</script> All rights reserved | This
+                                <script>document.write(new Date().getFullYear());</script> All rights reserved <br> <small class="font-small"> This
                                 template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a
-                                    href="https://colorlib.com" target="_blank">Colorlib</a>
+                                    href="https://colorlib.com" target="_blank">Colorlib</a></small>
                             </p>
                         </div>
                     </div>
@@ -426,8 +426,23 @@
     <script src="src/js/main.js"></script>
 
     <!-- Custom Js Scripts -->
-    <script src="src/js/api-client.js"></script>
-    <script src="src/js/vfast-user-details.js"></script>
+    <script src="src/js/vfast/api-client.js"></script>
+    <script src="src/js/vfast/user.js"></script>
+
+    <script defer>
+        // Logout button click handle
+        $("#logout-btn").on( 
+            'click', 
+            function(e){
+                if(confirm("Do you really want to log out?")){
+                    clearAuthToken();
+                    document.location.reload();
+                }
+                else
+                    e.preventDefault();
+            }
+        )
+    </script>
 </body>
 
 </html>
