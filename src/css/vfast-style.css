@@ -96,6 +96,10 @@ tr .c-o {
 	margin-bottom: 28px;
 }
 
+.font-small{
+    font-size: 12px;
+}
+
 @media (min-width:992px){
     .menu-item .logo{
         height: 35px;
