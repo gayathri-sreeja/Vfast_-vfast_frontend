@@ -126,10 +126,10 @@
                                     <li><a href="contact.html">Contact</a></li>
                                 </ul>
                             </nav>
-                            <span class="login-btn">
-                                <a href="./dashboard.html" id="login-btn">
+                            <span class="login-btn" id="login-btn">
+                                <a href="./dashboard.html" >
                                     <i class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i>                
-                                    Shreyas A
+                                    Unidentified
                                 </a>
                                 &nbsp;
                                 &nbsp;
@@ -211,12 +211,11 @@
                     </div>
                     <div class="col-lg-5">
                         <div class="co-text">
-                            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            <p>
                                 Copyright &copy;
-                                <script>document.write(new Date().getFullYear());</script> All rights reserved | This
+                                <script>document.write(new Date().getFullYear());</script> All rights reserved <br> <small class="font-small"> This
                                 template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a
-                                    href="https://colorlib.com" target="_blank">Colorlib</a>
-                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                    href="https://colorlib.com" target="_blank">Colorlib</a></small>
                             </p>
                         </div>
                     </div>
@@ -241,26 +240,13 @@
 
     <script src="src/js/main.js"></script>
 
-    <script src="src/js/api-client.js"></script>
-    <script src="src/js/vfast-user-details.js" defer></script>
+    <script src="src/js/vfast/api-client.js"></script>
+    <script src="src/js/vfast/user.js" defer></script>
     
     <!-- Logout Script added for button -->
     <script defer>
         // Redirect to login if user is not logged in
         (!getAuthToken()) && window.location.replace("./login.html");
-
-        // Logout button click handle
-        $("#logout-btn").on( 
-            'click', 
-            function(e){
-                if(confirm("Do you really want to log out?")){
-                    clearAuthToken();
-                    document.location.reload();
-                }
-                else
-                    e.preventDefault();
-            }
-        )
     </script>
 </body>
 
