@@ -4,17 +4,21 @@ console.log(`Logged in user: ${JSON.stringify(logged_in_user)}`);
 const login_info_element = document.querySelector("#login-btn");
 const bookingDetailsContainer = document.querySelector("#booking-details");
 
-function fill_reservation_data(data){
-    bookingDetailsContainer.innerHTML = ""; // Clear existing content
-    const statusClasses = {
-        "Pending": ["text-warning", "border-warning"],
-        "Approved": ["text-success", "border-success"],
-        "Rejected": ["text-danger", "border-danger"]
-    };
+const statusClasses = {
+    "Pending": "text-warning border-warning",
+    "Reserved": "text-warning border-warning",
+    "Approved": "text-success border-success",
+    "CheckedIn": "text-success border-success",
+    "Rejected": "text-danger border-danger",
+    "Cancelled": "text-danger border-danger"
+};
 
-    data.forEach(booking => {
+function fill_reservation_data(data) {
+    bookingDetailsContainer.innerHTML = ""; // Clear existing content
+
+    data.filter(booking => Date.parse(booking.check_in) >= new Date().setHours(0, 0, 0, 0)).forEach(booking => {
         const bookingCard = document.createElement("div");
-        bookingCard.classList.add("col-6", "contact-text");
+        bookingCard.classList.add("col-6", "my-2", "contact-text");
         bookingCard.innerHTML = `
             <div class="card p-4">
                 <h4> <b>${booking.booked_room_type} Room</b></h4>
@@ -44,7 +48,7 @@ function fill_reservation_data(data){
                         <tr>
                             <td class="c-o">Status:</td>
                             <td>
-                                <b class="text-center p-2 rounded-3 text-uppercase border ${statusClasses[booking.booking_status].join(' ')}">${booking.booking_status}</b>
+                                <b class="text-center p-2 rounded-3 text-uppercase border ${statusClasses[booking.booking_status]}">${booking.booking_status}</b>
                             </td>
                         </tr>
                     </tbody>
@@ -55,7 +59,7 @@ function fill_reservation_data(data){
     });
 }
 
-if (logged_in_user){
+if (logged_in_user) {
     login_info_element.innerHTML = `
     <a href="./dashboard.html">
         <i class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i>
@@ -68,10 +72,10 @@ if (logged_in_user){
     </a>
     `
     // Logout button click handle
-    $("#logout-btn").on( 
-        'click', 
-        function(e){
-            if(confirm("Do you really want to log out?")){
+    $("#logout-btn").on(
+        'click',
+        function (e) {
+            if (confirm("Do you really want to log out?")) {
                 clearAuthToken();
                 document.location.reload();
             }
@@ -80,29 +84,39 @@ if (logged_in_user){
         }
     )
 } else {
-    if(window.location.href.includes("booking") || window.location.href.includes("dashboard")){
+    if (window.location.href.includes("booking") || window.location.href.includes("dashboard")) {
         window.location.href = "./login.html";
     }
 }
 
-if (logged_in_user){
-    if(document.location.href.includes("dashboard")){
+if (logged_in_user) {
+    if (document.location.href.includes("dashboard")) {
         apiRequest('/booking/user-bookings', {
             method: 'GET',
         }, true)
-        .then(response => {
-            console.log(response);
-            fill_reservation_data(response.data.bookings);
-        })
-        .catch(error => {
-            console.error('Booking Details error:', error);
-            // alert('Booking Details failed: ' + error.message);
-            bookingDetailsContainer.innerHTML = `
-            <div class="col align-center">
-                It seems that you have not made any bookings. <br>
-                Please head on to Reserve Now Button to make a booking. <br> <br>
-                <small class='text-danger'>Contact us immediately if you think this is an error.</small>
-            </div>`
-        });
+            .then(response => {
+                console.log(response);
+                fill_reservation_data(response.data.bookings);
+                if (bookingDetailsContainer.innerHTML.length == 0) {
+                    bookingDetailsContainer.innerHTML = `
+                        <div class="col align-center">
+                            It seems that you have not made any bookings. <br>
+                            Please head on to Reserve Now Button to make a booking. <br> <br>
+                            <small class='text-danger'>Contact us immediately if you think this is an error.</small>
+                        </div>
+                    `;
+                }
+            })
+            .catch(error => {
+                console.error('Booking Details error:', error);
+                // alert('Booking Details failed: ' + error.message);
+                bookingDetailsContainer.innerHTML = `
+                    <div class="col align-center">
+                        It seems that you have not made any bookings. <br>
+                        Please head on to Reserve Now Button to make a booking. <br> <br>
+                        <small class='text-danger'>Contact us immediately if you think this is an error.</small>
+                    </div>
+                `;
+            });
     }
 }

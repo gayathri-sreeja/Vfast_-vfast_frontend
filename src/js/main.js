@@ -1,5 +1,15 @@
 'use strict';
 
+if (window.innerWidth < 1000) {
+    document.body.innerHTML = `
+        <h4> Small Screens Unsupported </h4>
+        <p>
+            We are working on supporting smaller screens as well, 
+            for now please open this in a desktop or laptop.
+        </p>
+    `;
+}
+
 (function ($) {
 
     /*------------------
@@ -64,25 +74,25 @@
         mouseDrag: false
     });
 
-    /*------------------------
-        Testimonial Slider
-    ----------------------- */
-    $(".testimonial-slider").owlCarousel({
-        items: 1,
-        dots: false,
-        autoplay: true,
-        loop: true,
-        smartSpeed: 1200,
-        nav: true,
-        navText: ["<i class='arrow_left'></i>", "<i class='arrow_right'></i>"]
-    });
+    // /*------------------------
+    //     Testimonial Slider
+    // ----------------------- */
+    // $(".testimonial-slider").owlCarousel({
+    //     items: 1,
+    //     dots: false,
+    //     autoplay: true,
+    //     loop: true,
+    //     smartSpeed: 1200,
+    //     nav: true,
+    //     navText: ["<i class='arrow_left'></i>", "<i class='arrow_right'></i>"]
+    // });
 
     /*------------------
         Magnific Popup
     --------------------*/
-    $('.video-popup').magnificPopup({
-        type: 'iframe'
-    });
+    // $('.video-popup').magnificPopup({
+    //     type: 'iframe'
+    // });
 
     /*------------------
         Date Picker
