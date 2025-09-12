@@ -75,6 +75,7 @@ label {
 
 #roomsCards .ap-service-item .api-text h3{
     background-color: #0005;
+    -webkit-backdrop-filter: blur(4px);
     backdrop-filter: blur(4px);
     width: fit-content;
     margin: auto;
@@ -139,4 +140,26 @@ tr .c-o {
     .menu-item.mt-lg-5{
         margin-top: 52px !important;
     }
+}
+
+/* Moved from inline styles in index.html */
+.hr-text-standard {
+    margin-left: 200px;
+}
+.hs-item-main1 {
+    margin-bottom: 100px;
+}
+
+/* Moved from inline styles in login.html */
+.header-link {
+    text-decoration: none;
+    color: rgb(255, 255, 255) !important;
+}
+.logo-img {
+    width: 50%;
+}
+
+/* Moved from inline styles in 404.html */
+.logo-404-img {
+    max-width: 200px;
 }
