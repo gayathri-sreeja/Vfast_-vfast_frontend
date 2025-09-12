@@ -144,7 +144,8 @@
                             </div>
                             <div class="col-lg-2 select-option">
                                 <label for="gender">Gender</label>
-                                <select id="gender" name="gender">
+                                <select id="gender" name="gender" required>
+                                    <option value="0" disabled selected hidden>Select Gender</option>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                     <option value="other">Other</option>
@@ -170,6 +171,7 @@
                             <div class="col-lg-7 select-option">
                                 <label for="roomType">Room Type</label required>
                                 <select id="roomType">
+                                    <option value="0" disabled selected hidden>Select Room Type</option>
                                     <option value="Standard">Standard</option>
                                     <option value="Delux">Delux</option>
                                     <option value="Suite">Suite</option>
@@ -183,11 +185,11 @@
                             </div>
                             <div class="check-date col-lg-6">
                                 <label for="startDate">Check In</label>
-                                <input type="text" class="date-input" id="startDate" placeholder="From" required>
+                                <input type="date" class="date-input" id="startDate" placeholder="From" required>
                             </div>
                             <div class="check-date col-lg-6">
                                 <label for="endDate">Check Out</label>
-                                <input type="text" class="date-input" id="endDate" placeholder="To" required>
+                                <input type="date" class="date-input" id="endDate" placeholder="To" required>
                             </div>
                             <div class="col-lg-12">
                                 <label for="purpose">Purpose of Visit</label>
@@ -301,6 +303,33 @@
         integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ=="
         data-cf-beacon='{"rayId":"8d5acbc7bea833a8","token":"cd0b4b3a733644fc843ef0b185f98241","version":"2024.10.1"}'
         crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () 
+    {
+    function updateSelect(sel)
+    {
+    const val = sel.value;
+    if (val === null || val === '0') 
+    {
+      sel.classList.add('empty');
+    }
+    else 
+    {
+      sel.classList.remove('empty');
+    }
+    }
+    const selects = [document.getElementById('gender'), document.getElementById('roomType')];
+
+    selects.forEach(function (sel) 
+    {
+    if (!sel) return; 
+    updateSelect(sel);
+    sel.addEventListener('change', function () { updateSelect(sel); });
+    sel.addEventListener('blur', function () { updateSelect(sel); });
+    });
+    });
+</script>
+
 </body>
 
 </html>
