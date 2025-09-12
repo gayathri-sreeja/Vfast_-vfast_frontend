@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Dashboard</title>
+    <title>Reserve Room</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -13,14 +13,9 @@
     <link rel="stylesheet" href="src/css/font-awesome.min.css" type="text/css">
     <link rel="stylesheet" href="src/css/elegant-icons.css" type="text/css">
     <link rel="stylesheet" href="src/css/flaticon.css" type="text/css">
-    <link rel="stylesheet" href="src/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="src/css/nice-select.css" type="text/css">
     <link rel="stylesheet" href="src/css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="src/css/magnific-popup.css" type="text/css">
     <link rel="stylesheet" href="src/css/slicknav.min.css" type="text/css">
-
-    <link href="src/css/gijgo.min.css" rel="stylesheet" type="text/css" />
-
     <link rel="stylesheet" href="src/css/style.css" type="text/css">
 
     <link rel="stylesheet" href="src/css/vfast-style.css" type="text/css">
@@ -139,63 +134,70 @@
                 <div class="col-lg-12 booking-form">
                     <form action="#" class="contact-form" id="bookingForm">
                         <div class="row">
-                            <div class="col-lg-4">
+                            <div class="col-lg-5">
                                 <label for="firstName">First Name</label>
-                                <input type="text" placeholder="First Name" id="firstName">
+                                <input type="text" placeholder="First Name" id="firstName" required>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-5">
                                 <label for="lastName">Last Name</label>
                                 <input type="text" placeholder="Last Name" id="lastName">
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-2 select-option">
+                                <label for="gender">Gender</label>
+                                <select id="gender" name="gender" required>
+                                    <option value="0" disabled selected hidden>Select Gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <!-- <div class="col-lg-2">
                                 <label for="age">Age</label>
                                 <input type="text" placeholder="Age" id="age">
+                            </div> -->
+                            <div class="col-lg-4">
+                                <label for="relation_to_user">Relation to User</label>
+                                <input type="relation_to_user" placeholder="Relation to User" id="relation_to_user" required>
                             </div>
-                            <div class="col-lg-5">
+                            <div class="col-lg-4">
                                 <label for="email">Email</label>
-                                <input type="email" placeholder="Email" id="email">
+                                <!-- Filled and disabled ideally -->
+                                <input type="email" placeholder="Email" id="email" required>
                             </div>
-                            <div class="col-lg-5">
+                            <div class="col-lg-4">
                                 <label for="phone">Phone</label>
                                 <input type="text" placeholder="Phone" id="phone">
                             </div>
-                            <div class="col-lg-2">
-                                <label for="guestCount">Count of Guests</label>
-                                <input type="text" placeholder="Count of Guests" id="guestCount">
-                            </div>
                             <div class="col-lg-7 select-option">
-                                <label for="roomType">Room Type</label>
+                                <label for="roomType">Room Type</label required>
                                 <select id="roomType">
-                                    <option value="S">Standard</option>
-                                    <option value="D">Deluxe</option>
-                                    <option value="E">Executive</option>
+                                    <option value="0" disabled selected hidden>Select Room Type</option>
+                                    <option value="Standard">Standard</option>
+                                    <option value="Delux">Delux</option>
+                                    <option value="Suite">Suite</option>
+                                    <option value="Royal Suite">Royal Suite</option>
+                                    <option value="Dormitory">Dormitory</option>
                                 </select>
                             </div>
-                            <div class="col-lg-5 select-option">
-                                <label for="roomCount">Rooms Count</label>
-                                <select id="roomCount">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                </select>
+                            <div class="col-lg-5">
+                                <label for="guestCount">Count of Guests</label>
+                                <input type="number" placeholder="Count of Guests" id="guestCount" value="1" min="1" max="4" required>
                             </div>
                             <div class="check-date col-lg-6">
                                 <label for="startDate">Check In</label>
-                                <input type="text" class="date-input" id="startDate" placeholder="From">
+                                <input type="date" class="date-input" id="startDate" placeholder="From" required>
                             </div>
                             <div class="check-date col-lg-6">
                                 <label for="endDate">Check Out</label>
-                                <input type="text" class="date-input" id="endDate" placeholder="To">
+                                <input type="date" class="date-input" id="endDate" placeholder="To" required>
                             </div>
                             <div class="col-lg-12">
                                 <label for="purpose">Purpose of Visit</label>
-                                <textarea id="purpose" placeholder="For security and documentation purposes, please confirm the primary purpose of your visit."></textarea>
+                                <textarea id="purpose" placeholder="For security and documentation purposes, please confirm the primary purpose of your visit." required></textarea>
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="agreeTerms" style="width: 10px; height: 30px;">
+                                    <input class="form-check-input" type="checkbox" id="agreeTerms" style="width: 10px; height: 30px;" required>
                                     <label class="form-check-label pt-2" for="agreeTerms" style="size: 3rem;">
                                         &nbsp; I agree to the Terms and Conditions.
                                     </label>
@@ -261,12 +263,11 @@
                     </div>
                     <div class="col-lg-5">
                         <div class="co-text">
-                            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            <p>
                                 Copyright &copy;
-                                <script>document.write(new Date().getFullYear());</script> All rights reserved | This
+                                <script>document.write(new Date().getFullYear());</script> All rights reserved <br> <small class="font-small"> This
                                 template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a
-                                    href="https://colorlib.com" target="_blank">Colorlib</a>
-                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                    href="https://colorlib.com" target="_blank">Colorlib</a></small>
                             </p>
                         </div>
                     </div>
@@ -287,26 +288,48 @@
 
     <!-- Js Plugins -->
     <script src="src/js/jquery-3.3.1.min.js"></script>
-    <script src="src/js/bootstrap.min.js"></script>
-    <script src="src/js/jquery.magnific-popup.min.js"></script>
     <script src="src/js/jquery.nice-select.min.js"></script>
     <script src="src/js/jquery-ui.min.js"></script>
     <script src="src/js/jquery.slicknav.js"></script>
-
-    <script src="src/js/owl.carousel.min.js"></script>
-
     <script src="src/js/main.js"></script>
 
     <!-- Booking Scripts -->
-    <script src="src/js/vfast-apiClient.js"></script>
-    <script src="src/js/vfast-bookings.js"></script>
-    <script src="src/js/vfast-user-details.js" defer></script>
+    <script src="src/js/vfast/api-client.js"></script>
+    <script src="src/js/vfast/reservations.js"></script>
+    <script src="src/js/vfast/user.js" defer></script>
 
     <script defer
         src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015"
         integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ=="
         data-cf-beacon='{"rayId":"8d5acbc7bea833a8","token":"cd0b4b3a733644fc843ef0b185f98241","version":"2024.10.1"}'
         crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () 
+    {
+    function updateSelect(sel)
+    {
+    const val = sel.value;
+    if (val === null || val === '0') 
+    {
+      sel.classList.add('empty');
+    }
+    else 
+    {
+      sel.classList.remove('empty');
+    }
+    }
+    const selects = [document.getElementById('gender'), document.getElementById('roomType')];
+
+    selects.forEach(function (sel) 
+    {
+    if (!sel) return; 
+    updateSelect(sel);
+    sel.addEventListener('change', function () { updateSelect(sel); });
+    sel.addEventListener('blur', function () { updateSelect(sel); });
+    });
+    });
+</script>
+
 </body>
 
 </html>

@@ -1,5 +1,15 @@
 'use strict';
 
+if (window.innerWidth < 1000) {
+    document.body.innerHTML = `
+        <h4> Small Screens Unsupported </h4>
+        <p>
+            We are working on supporting smaller screens as well, 
+            for now please open this in a desktop or laptop.
+        </p>
+    `;
+}
+
 (function ($) {
 
     /*------------------
@@ -15,7 +25,7 @@
     --------------------*/
     $('.set-bg').each(function () {
         var bg = $(this).data('setbg');
-        $(this).css('background-image', 'url(' + bg + ')');
+        $(this).css('background-image', `url("${bg}")`);
     });
 
     //Offcanvas Menu
@@ -64,25 +74,25 @@
         mouseDrag: false
     });
 
-    /*------------------------
-        Testimonial Slider
-    ----------------------- */
-    $(".testimonial-slider").owlCarousel({
-        items: 1,
-        dots: false,
-        autoplay: true,
-        loop: true,
-        smartSpeed: 1200,
-        nav: true,
-        navText: ["<i class='arrow_left'></i>", "<i class='arrow_right'></i>"]
-    });
+    // /*------------------------
+    //     Testimonial Slider
+    // ----------------------- */
+    // $(".testimonial-slider").owlCarousel({
+    //     items: 1,
+    //     dots: false,
+    //     autoplay: true,
+    //     loop: true,
+    //     smartSpeed: 1200,
+    //     nav: true,
+    //     navText: ["<i class='arrow_left'></i>", "<i class='arrow_right'></i>"]
+    // });
 
     /*------------------
         Magnific Popup
     --------------------*/
-    $('.video-popup').magnificPopup({
-        type: 'iframe'
-    });
+    // $('.video-popup').magnificPopup({
+    //     type: 'iframe'
+    // });
 
     /*------------------
         Date Picker
@@ -96,42 +106,4 @@
         Nice Select
     --------------------*/
     $("select").niceSelect();
-
-    // $("#bookingForm").on('submit', function (e) {
-    //     e.preventDefault();
-    //     if (!$('#agreeTerms').is(':checked')) {
-    //         alert("Please check the box to agree with the Terms and Conditions.");
-    //     } else {
-    //         var data = {
-    //             firstName: $("#firstName").val(),
-    //             lastName: $("#lastName").val(),
-    //             email: $("#email").val(),
-    //             age: $("#age").val(),
-    //             guestCount: $("#guestCount").val(),
-    //             phone: $("#phone").val(),
-    //             checkIn: $("#startDate").val(),
-    //             checkOut: $("#endDate").val(),
-    //             roomType: $("#roomType").val(),
-    //             roomCount: $("#roomCount").val(),
-    //             purpose: $("#purpose").val()
-    //         };
-
-    //         $.ajax({
-    //             type: "POST",
-    //             url: "https://ec2-15-207-110-230.ap-south-1.compute.amazonaws.com/api/v1/booking/booking-request",
-    //             data: JSON.stringify(data),
-    //             contentType: "application/json",
-    //             dataType: "json",
-    //             success: function (response) {
-    //                 alert("Your booking request has been submitted successfully.");
-    //                 e.target.reset();
-    //             },
-    //             error: function (xhr, status, error) {
-    //                 console.error("Error:", error);
-    //                 alert("There was an error submitting your booking request.");
-    //             }
-    //         });
-    //     }
-    // });
-
 })(jQuery);

@@ -13,10 +13,6 @@
     <link rel="stylesheet" href="src/css/font-awesome.min.css" type="text/css">
     <link rel="stylesheet" href="src/css/elegant-icons.css" type="text/css">
     <link rel="stylesheet" href="src/css/flaticon.css" type="text/css">
-    <link rel="stylesheet" href="src/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="src/css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="src/css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="src/css/magnific-popup.css" type="text/css">
     <link rel="stylesheet" href="src/css/slicknav.min.css" type="text/css">
 
     <link rel="stylesheet" href="src/css/style.css" type="text/css">
@@ -48,7 +44,7 @@
             </a>
             &nbsp;
             &nbsp;
-            <a href="./login.html">
+            <a href="./dashboard.html">
                 <i class="fa fa-power-off fa-lg text-danger" aria-hidden="true"></i>
             </a>
         </span>
@@ -130,14 +126,14 @@
                                     <li><a href="contact.html">Contact</a></li>
                                 </ul>
                             </nav>
-                            <span class="login-btn">
-                                <a href="#">
+                            <span class="login-btn" id="login-btn">
+                                <a href="./dashboard.html" >
                                     <i class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i>                
-                                    Shreyas A
+                                    Unidentified
                                 </a>
                                 &nbsp;
                                 &nbsp;
-                                <a href="./login.html">
+                                <a id="logout-btn">
                                     <i class="fa fa-power-off fa-lg text-danger" aria-hidden="true"></i>
                                 </a>
                             </span>
@@ -152,43 +148,15 @@
     <!-- Contact Section Begin -->
     <section class="contact-section">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="contact-text">
-                        <h2>My Reservation</h2>
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <td class="c-o">Room Type:</td>
-                                    <td>Standard</td>
-                                </tr>
-                                <tr>
-                                    <td class="c-o">Number of Rooms:</td>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <td class="c-o">From:</td>
-                                    <td>30 November 2024</td>
-                                </tr>
-                                <tr>
-                                    <td class="c-o">To:</td>
-                                    <td>1 December 2024</td>
-                                </tr>
-                                <tr>
-                                    <td class="c-o">Email:</td>
-                                    <td>h20240192@pilani.bits-pilani.ac.in</td>
-                                </tr>
-                                <tr>
-                                    <td class="c-o">Phone:</td>
-                                    <td>+91 7798044008</td>
-                                </tr>
-                                <tr>
-                                    <td class="c-o">Status:</td>
-                                    <td><b class="text-center text-warning border border-warntext-warning p-2 rounded-3">PENDING</b></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+            <div class="row mb-5">
+                <div class="col">
+                    <h2>My Reservations</h2>
+                </div>
+            </div>
+            <div class="row" id="booking-details">
+                <!-- Booking cards will be dynamically inserted here -->
+                <div class="col align-center">
+                    Loading reservations please wait...
                 </div>
             </div>
         </div>
@@ -243,12 +211,11 @@
                     </div>
                     <div class="col-lg-5">
                         <div class="co-text">
-                            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            <p>
                                 Copyright &copy;
-                                <script>document.write(new Date().getFullYear());</script> All rights reserved | This
+                                <script>document.write(new Date().getFullYear());</script> All rights reserved <br> <small class="font-small"> This
                                 template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a
-                                    href="https://colorlib.com" target="_blank">Colorlib</a>
-                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                    href="https://colorlib.com" target="_blank">Colorlib</a></small>
                             </p>
                         </div>
                     </div>
@@ -269,24 +236,18 @@
 
     <!-- Js Plugins -->
     <script src="src/js/jquery-3.3.1.min.js"></script>
-    <!-- <script src="src/js/bootstrap.min.js"></script> -->
-    <script src="src/js/jquery.magnific-popup.min.js"></script>
-    <script src="src/js/jquery.nice-select.min.js"></script>
-    <script src="src/js/jquery-ui.min.js"></script>
     <script src="src/js/jquery.slicknav.js"></script>
-
-    <script src="src/js/owl.carousel.min.js"></script>
 
     <script src="src/js/main.js"></script>
 
-    <script src="src/js/vfast-apiClient.js"></script>
-    <script src="src/js/vfast-user-details.js" defer></script>
-
-    <script defer
-        src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015"
-        integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ=="
-        data-cf-beacon='{"rayId":"8d5acbc7bea833a8","serverTiming":{"name":{"cfExtPri":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2024.10.1","token":"cd0b4b3a733644fc843ef0b185f98241"}'
-        crossorigin="anonymous"></script>
+    <script src="src/js/vfast/api-client.js"></script>
+    <script src="src/js/vfast/user.js" defer></script>
+    
+    <!-- Logout Script added for button -->
+    <script defer>
+        // Redirect to login if user is not logged in
+        (!getAuthToken()) && window.location.replace("./login.html");
+    </script>
 </body>
 
 </html>
