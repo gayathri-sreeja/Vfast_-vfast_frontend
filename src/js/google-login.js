@@ -27,3 +27,16 @@ function handleCredentialResponse(response) {
         });
     });
 }
+
+function temporaryLoginWorkaround(){
+    apiRequest('/user/login', {
+        method: 'POST',
+        body: { 
+            user_id:"temporary_user"
+        },
+    }, false)
+    .then( response => {
+        setAuthToken(response.data.access_token);
+        window.location.reload();
+    })
+}
