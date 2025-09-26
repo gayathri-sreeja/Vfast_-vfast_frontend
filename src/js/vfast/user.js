@@ -60,17 +60,19 @@ function fill_reservation_data(data) {
 }
 
 if (logged_in_user) {
-    login_info_element.innerHTML = `
-    <a href="./dashboard.html">
-        <i class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i>
-        ${logged_in_user.username}
-    </a>
-    &nbsp;
-    &nbsp;
-    <a id="logout-btn">
-        <i class="fa fa-power-off fa-lg text-danger" aria-hidden="true"></i>
-    </a>
-    `
+   const displayName = logged_in_user.name || logged_in_user.username || "User";
+
+login_info_element.innerHTML = `
+<a href="./dashboard.html">
+    <i class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i>
+    ${displayName}
+</a>
+&nbsp;
+&nbsp;
+<a id="logout-btn">
+    <i class="fa fa-power-off fa-lg text-danger" aria-hidden="true"></i>
+</a>
+`;
     // Logout button click handle
     $("#logout-btn").on(
         'click',
