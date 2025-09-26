@@ -112,12 +112,3 @@ async function apiRequest(endpoint, options = {}, requiresAuth = false) {
         throw error;
     }
 }
-
-// Export helpers
-export {
-    apiRequest,
-    setAuthToken,
-    getAuthToken,
-    clearAuthToken,
-    getUserData
-};
