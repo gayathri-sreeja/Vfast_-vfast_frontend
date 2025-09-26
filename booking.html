@@ -168,7 +168,7 @@
                                 <label for="phone">Phone</label>
                                 <input type="text" placeholder="Phone" id="phone">
                             </div>
-                            <div class="col-lg-7 select-option">
+                            <div class="col-lg-6 select-option">
                                 <label for="roomType">Room Type</label required>
                                 <select id="roomType">
                                     <option value="0" disabled selected hidden>Select Room Type</option>
@@ -179,9 +179,13 @@
                                     <option value="Dormitory">Dormitory</option>
                                 </select>
                             </div>
-                            <div class="col-lg-5">
+                            <div class="col-lg-3 ">
                                 <label for="guestCount">Count of Guests</label>
                                 <input type="number" placeholder="Count of Guests" id="guestCount" value="1" min="1" max="4" required>
+                            </div>
+                            <div class="col-lg-3" >
+                                <label for="roomcount">Count of Rooms</label>
+                                <input type="number" placeholder="Count of Rooms" id="roomCount" value="1" min="1" required>
                             </div>
                             <div class="check-date col-lg-6">
                                 <label for="startDate">Check In</label>
@@ -197,9 +201,9 @@
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="agreeTerms" style="width: 10px; height: 30px;" required>
-                                    <label class="form-check-label pt-2" for="agreeTerms" style="size: 3rem;">
-                                        &nbsp; I agree to the Terms and Conditions.
+                                    <input class="form-check-input" type="checkbox" id="agreeTerms"  required>
+                                    <label class="form-check-label pt-2" for="agreeTerms" >
+                                         I agree to the Terms and Conditions.
                                     </label>
                                 </div>
                             </div>

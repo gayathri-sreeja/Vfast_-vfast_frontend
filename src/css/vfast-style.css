@@ -127,6 +127,35 @@ tr .c-o {
   color: #000;
 }
 
+.room-selection-row select,
+.room-selection-row input {
+    width: 100%;
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    box-sizing: border-box;
+}
+
+.room-selection-row label {
+    font-size: 0.9rem;
+}
+
+input[type="checkbox"] {
+  appearance: auto;
+  width: auto;
+  height: auto;
+  margin: 0 5px 0 0;
+  padding: 0;
+}
+#agreeTerms {
+  transform: scale(1.5);
+  margin-right: 10px;
+}
+.form-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 @media (min-width:992px){
     .menu-item .logo{
         height: 35px;
@@ -163,3 +192,9 @@ tr .c-o {
 .logo-404-img {
     max-width: 200px;
 }
+
+
+
+
+
+
