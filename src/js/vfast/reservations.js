@@ -1,5 +1,3 @@
-import { requestBooking } from './api-client.js';
-
 $("#bookingForm").on('submit', async function(e) {
     e.preventDefault();
 
@@ -29,7 +27,10 @@ $("#bookingForm").on('submit', async function(e) {
     };
 
     try {
-        await requestBooking(booking_data); 
+        await apiRequest('/user/reservation-requests', {
+            method: 'POST',
+            body: booking_data,
+        }, true);
         alert("Your booking request has been submitted successfully.");
         e.target.reset();
         window.location.href = "./dashboard.html";
