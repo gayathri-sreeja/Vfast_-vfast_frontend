@@ -1,0 +1,749 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Faculty Reservation | VFAST</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Bootstrap CSS v5.3.2 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <link rel="stylesheet" href="src/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="src/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="src/css/flaticon.css" type="text/css">
+    <link rel="stylesheet" href="src/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="src/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="src/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="src/css/style.css" type="text/css">
+    <link rel="stylesheet" href="src/css/vfast-style.css" type="text/css">
+
+    <style>
+        .toggle-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        .toggle-wrapper {
+            background: #f1f3f7;
+            border-radius: 30px;
+            padding: 5px;
+            display: inline-flex;
+            gap: 4px;
+        }
+        .toggle-btn {
+            border: none;
+            border-radius: 26px;
+            padding: 10px 32px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            background: transparent;
+            color: #555;
+        }
+        .toggle-btn.active {
+            background: #cc0000;
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(204, 0, 0, 0.3);
+        }
+        .mode-label {
+            text-align: center;
+            font-size: 13px;
+            color: #888;
+            margin-top: 10px;
+        }
+        .form-section {
+            display: none;
+        }
+        .form-section.active {
+            display: block;
+        }
+        .alert-box {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Offcanvas Menu Section Begin -->
+    <div class="offcanvas-menu-overlay"></div>
+    <div class="canvas-open">
+        <i class="icon_menu"></i>
+    </div>
+    <div class="offcanvas-menu-wrapper">
+        <div class="canvas-close">
+            <i class="icon_close"></i>
+        </div>
+        <nav class="mainmenu mobile-menu">
+            <ul>
+                <li><a href="./index.html">Home</a></li>
+                <li><a href="./index.html#rooms">Rooms</a></li>
+                <li><a href="./gallery.html">Gallery</a></li>
+                <li><a href="./index.html#about-us">About Us</a></li>
+                <li><a href="./contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <div id="mobile-menu-wrap"></div>
+        <ul class="top-widget">
+            <li><i class="fa fa-phone"></i> (+91) 1596 255 530</li>
+            <li><i class="fa fa-envelope"></i> vfast@pilani.bits-pilani.ac.in</li>
+        </ul>
+    </div>
+    <!-- Offcanvas Menu Section End -->
+
+    <!-- Header Section Begin -->
+    <header class="header-section">
+        <div class="top-nav fixed-top bg-danger">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <ul class="tn-left">
+                            <li>
+                                <a href="tel:+911596255530" style="text-decoration: none; color: #fff !important;">
+                                    <i class="fa fa-phone"></i> (+91) 1596 255 530
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mailto:vfast@pilani.bits-pilani.ac.in" style="text-decoration: none; color: #fff !important;">
+                                    <i class="fa fa-envelope"></i> vfast@pilani.bits-pilani.ac.in
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="tn-right">
+                            <a href="http://bits-pilani.ac.in"><i class="fa fa-globe fa-lg"></i></a>
+                            <span id="userInfo" style="color:#fff;margin-left:15px;font-size:13px;"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="menu-item mt-lg-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-2">
+                        <div class="logo">
+                            <a href="./index.html">
+                                <img src="src/img/logo.png" alt="" height="35">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-10">
+                        <div class="nav-menu">
+                            <nav class="mainmenu">
+                                <ul>
+                                    <li><a href="./index.html">Home</a></li>
+                                    <li><a href="./index.html#rooms">Rooms</a></li>
+                                    <li><a href="gallery.html">Gallery</a></li>
+                                    <li><a href="./index.html#about-us">About Us</a></li>
+                                    <li><a href="./contact.html">Contact</a></li>
+                                </ul>
+                            </nav>
+                            <span class="login-btn" id="login-btn">
+                                <a href="#" onclick="logout()">
+                                    <i class="fa fa-sign-out fa-lg" aria-hidden="true"></i>
+                                    Logout
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Header End -->
+
+    <!-- Faculty Booking Section Begin -->
+    <section class="contact-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 position-relative">
+                    <button type="button" class="btn btn-outline-danger position-absolute" onclick="openMyReservations()" style="border-radius:25px;padding:8px 20px;right:0;top:-10px;">
+                        <i class="fa fa-history"></i> My Reservations
+                    </button>
+                    <div class="contact-text">
+                        <h2 class="text-center">Faculty Reservation</h2>
+                        <p class="text-center text-muted">Select reservation type below</p>
+                    </div>
+                </div>
+
+                <!-- Alert Box -->
+                <div class="col-lg-12" id="alertBox" style="display:none;"></div>
+
+                <!-- Toggle: Professional / Personal -->
+                <div class="col-lg-12">
+                    <div class="toggle-container">
+                        <div class="toggle-wrapper">
+                            <button type="button" class="toggle-btn active" id="toggleProfessional" onclick="setMode('professional')">
+                                🏛️ Professional
+                            </button>
+                            <button type="button" class="toggle-btn" id="togglePersonal" onclick="setMode('personal')">
+                                👤 Personal
+                            </button>
+                        </div>
+                    </div>
+                    <p class="mode-label" id="modeLabel">Mode: <strong>Professional</strong> — For official events and departmental bookings</p>
+                </div>
+
+                <!-- ═══════════════════════════════════════════════════════ -->
+                <!-- PROFESSIONAL FORM -->
+                <!-- ═══════════════════════════════════════════════════════ -->
+                <div class="col-lg-12 booking-form form-section active" id="professionalForm">
+                    <form action="#" class="contact-form" id="professionalBookingForm">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label for="eventName">Event Name *</label>
+                                <input type="text" placeholder="Name of the event / programme" id="eventName" required>
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="department">Department *</label>
+                                <input type="text" placeholder="Organising department" id="department" required>
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="profEmail">Email *</label>
+                                <input type="email" placeholder="Email" id="profEmail" required>
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="profPhone">Phone</label>
+                                <input type="text" placeholder="Phone" id="profPhone">
+                            </div>
+                            <div class="col-lg-6 select-option">
+                                <label for="profRoomType">Room Type *</label>
+                                <select id="profRoomType" required>
+                                    <option value="0" disabled selected hidden>Select Room Type</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-3">
+                                <label for="profGuestCount">Count of Guests *</label>
+                                <input type="number" placeholder="Count of Guests" id="profGuestCount" value="1" min="1" max="500" required>
+                            </div>
+                            <div class="col-lg-3">
+                                <label for="profRoomCount">Count of Rooms</label>
+                                <input type="number" placeholder="Count of Rooms" id="profRoomCount" value="1" min="1">
+                            </div>
+                            <div class="check-date col-lg-6">
+                                <label for="profStartDate">Check In *</label>
+                                <input type="date" class="date-input" id="profStartDate" required>
+                            </div>
+                            <div class="check-date col-lg-6">
+                                <label for="profEndDate">Check Out *</label>
+                                <input type="date" class="date-input" id="profEndDate" required>
+                            </div>
+                            <div class="col-lg-12">
+                                <label for="profPurpose">Purpose of Visit *</label>
+                                <textarea id="profPurpose" placeholder="Describe the event or purpose of booking" required></textarea>
+                            </div>
+                            <div class="col-lg-12">
+                                <label for="profSpecialReq">Special Requirements</label>
+                                <textarea id="profSpecialReq" placeholder="Any special requirements (optional)"></textarea>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="profAgreeTerms" required>
+                                    <label class="form-check-label pt-2" for="profAgreeTerms">
+                                        I agree to the Terms and Conditions.
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <button type="submit">Submit Professional Reservation</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- ═══════════════════════════════════════════════════════ -->
+                <!-- PERSONAL FORM (Same as Student/Alumni) -->
+                <!-- ═══════════════════════════════════════════════════════ -->
+                <div class="col-lg-12 booking-form form-section" id="personalForm">
+                    <form action="#" class="contact-form" id="personalBookingForm">
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <label for="firstName">First Name *</label>
+                                <input type="text" placeholder="First Name" id="firstName" required>
+                            </div>
+                            <div class="col-lg-5">
+                                <label for="lastName">Last Name</label>
+                                <input type="text" placeholder="Last Name" id="lastName">
+                            </div>
+                            <div class="col-lg-2 select-option">
+                                <label for="gender">Gender</label>
+                                <select id="gender" name="gender">
+                                    <option value="0" disabled selected hidden>Select</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="relation_to_user">Relation to User</label>
+                                <input type="text" placeholder="Relation to User" id="relation_to_user">
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="persEmail">Email *</label>
+                                <input type="email" placeholder="Email" id="persEmail" required>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="persPhone">Phone</label>
+                                <input type="text" placeholder="Phone" id="persPhone">
+                            </div>
+                            <div class="col-lg-6 select-option">
+                                <label for="persRoomType">Room Type *</label>
+                                <select id="persRoomType" required>
+                                    <option value="0" disabled selected hidden>Select Room Type</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-3">
+                                <label for="persGuestCount">Count of Guests *</label>
+                                <input type="number" placeholder="Count of Guests" id="persGuestCount" value="1" min="1" max="10" required>
+                            </div>
+                            <div class="col-lg-3">
+                                <label for="persRoomCount">Count of Rooms</label>
+                                <input type="number" placeholder="Count of Rooms" id="persRoomCount" value="1" min="1">
+                            </div>
+                            <div class="check-date col-lg-6">
+                                <label for="persStartDate">Check In *</label>
+                                <input type="date" class="date-input" id="persStartDate" required>
+                            </div>
+                            <div class="check-date col-lg-6">
+                                <label for="persEndDate">Check Out *</label>
+                                <input type="date" class="date-input" id="persEndDate" required>
+                            </div>
+                            <div class="col-lg-12">
+                                <label for="persPurpose">Purpose of Visit *</label>
+                                <textarea id="persPurpose" placeholder="Personal visit purpose" required></textarea>
+                            </div>
+                            <div class="col-lg-12">
+                                <label for="persSpecialReq">Special Requirements</label>
+                                <textarea id="persSpecialReq" placeholder="Any special requirements (optional)"></textarea>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="persAgreeTerms" required>
+                                    <label class="form-check-label pt-2" for="persAgreeTerms">
+                                        I agree to the Terms and Conditions.
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <button type="submit">Submit Personal Reservation</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- Faculty Booking Section End -->
+
+    <!-- Footer Section Begin -->
+    <footer class="footer-section">
+        <div class="container">
+            <div class="footer-text">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="ft-about">
+                            <div class="logo">
+                                <a href="#"><img src="src/img/logo.png" alt=""></a>
+                            </div>
+                            <div class="fa-social">
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-twitter"></i></a>
+                                <a href="#"><i class="fa fa-instagram"></i></a>
+                                <a href="#"><i class="fa fa-youtube-play"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 offset-lg-1">
+                        <div class="ft-contact">
+                            <h6>Contact Us</h6>
+                            <ul>
+                                <li>(+91) 1596 255 530</li>
+                                <li>vfast@pilani.bits-pilani.ac.in</li>
+                                <li>BITS Pilani, Jhunjhunu, Rajasthan - 333031</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copyright-option">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-7">
+                        <ul>
+                            <li><a href="#">Contact</a></li>
+                            <li><a href="#">Terms of use</a></li>
+                            <li><a href="#">Privacy</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="co-text">
+                            <p>Copyright &copy; <script>document.write(new Date().getFullYear());</script> BITS Pilani</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer Section End -->
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+    <script src="src/js/jquery-3.3.1.min.js"></script>
+    <script src="src/js/jquery.nice-select.min.js"></script>
+    <script src="src/js/jquery-ui.min.js"></script>
+    <script src="src/js/jquery.slicknav.js"></script>
+    <script src="src/js/main.js"></script>
+    <script src="src/js/vfast/api-client.js"></script>
+
+    <script>
+        // ══════════════════════════════════════════════════════════════
+        // FACULTY BOOKING PAGE LOGIC
+        // ══════════════════════════════════════════════════════════════
+
+        let currentMode = 'professional';
+
+        // Check login on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            const token = localStorage.getItem('access_token');
+
+            if (!token || !user.id) {
+                alert('Please login first');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Verify faculty
+            if (user.user_type !== 'FACULTY') {
+                alert('This page is for Faculty only. Redirecting to student booking...');
+                window.location.href = 'booking.html';
+                return;
+            }
+
+            // Display user info
+            document.getElementById('userInfo').textContent = `👩‍🏫 ${user.name}`;
+
+            // Prefill email
+            document.getElementById('profEmail').value = user.email || '';
+            document.getElementById('persEmail').value = user.email || '';
+
+            // Load room types
+            loadRoomTypes();
+        });
+
+        // Toggle mode
+        function setMode(mode) {
+            currentMode = mode;
+            const profForm = document.getElementById('professionalForm');
+            const persForm = document.getElementById('personalForm');
+            const profBtn = document.getElementById('toggleProfessional');
+            const persBtn = document.getElementById('togglePersonal');
+            const modeLabel = document.getElementById('modeLabel');
+
+            if (mode === 'professional') {
+                profForm.classList.add('active');
+                persForm.classList.remove('active');
+                profBtn.classList.add('active');
+                persBtn.classList.remove('active');
+                modeLabel.innerHTML = 'Mode: <strong>Professional</strong> — For official events and departmental bookings';
+            } else {
+                profForm.classList.remove('active');
+                persForm.classList.add('active');
+                profBtn.classList.remove('active');
+                persBtn.classList.add('active');
+                modeLabel.innerHTML = 'Mode: <strong>Personal</strong> — For personal/family visits';
+            }
+        }
+
+        // Load room types from API
+        async function loadRoomTypes() {
+            try {
+                const res = await fetch('http://localhost:8000/api/v1/booking/room-types');
+                const data = await res.json();
+                if (data.status === 'success' && data.data.room_types) {
+                    const options = data.data.room_types.map(rt => 
+                        `<option value="${rt.id}">${rt.name} (Capacity: ${rt.capacity})</option>`
+                    ).join('');
+                    document.getElementById('profRoomType').innerHTML = 
+                        '<option value="0" disabled selected hidden>Select Room Type</option>' + options;
+                    document.getElementById('persRoomType').innerHTML = 
+                        '<option value="0" disabled selected hidden>Select Room Type</option>' + options;
+                }
+            } catch (err) {
+                console.error('Failed to load room types:', err);
+            }
+        }
+
+        // Logout
+        function logout() {
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('user');
+            window.location.href = 'login.html';
+        }
+
+        // Show alert
+        function showAlert(type, message) {
+            const alertBox = document.getElementById('alertBox');
+            alertBox.innerHTML = `<div class="alert alert-${type}" role="alert">${message}</div>`;
+            alertBox.style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Submit Professional Form
+        document.getElementById('professionalBookingForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            const token = localStorage.getItem('access_token');
+
+            const bookingData = {
+                first_name: document.getElementById('eventName').value.trim(),
+                last_name: document.getElementById('department').value.trim(),
+                email: document.getElementById('profEmail').value.trim(),
+                phone_number: document.getElementById('profPhone').value.trim(),
+                check_in: document.getElementById('profStartDate').value,
+                check_out: document.getElementById('profEndDate').value,
+                pax: parseInt(document.getElementById('profGuestCount').value),
+                room_type_id: parseInt(document.getElementById('profRoomType').value),
+                booking_type: 'FACULTY_PROFESSIONAL',
+                is_international: false,
+                is_bulk: false,
+                purpose_of_visit: document.getElementById('profPurpose').value.trim(),
+                special_requirements: document.getElementById('profSpecialReq').value.trim(),
+                gst_number: '',
+                relation_to_campus: 'Faculty - Professional',
+                event_name: document.getElementById('eventName').value.trim(),
+                department: document.getElementById('department').value.trim(),
+                reservation_type: 'professional'
+            };
+
+            try {
+                const res = await fetch('http://localhost:8000/api/v1/booking/submit-booking', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(bookingData)
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    showAlert('success', `✅ Professional reservation submitted! Booking ID: <strong>${data.data.booking_id}</strong>`);
+                    document.getElementById('professionalBookingForm').reset();
+                    document.getElementById('profEmail').value = user.email || '';
+                } else {
+                    showAlert('danger', `❌ ${data.detail || data.message || 'Submission failed'}`);
+                }
+            } catch (err) {
+                showAlert('danger', `❌ Error: ${err.message}`);
+            }
+        });
+
+        // Submit Personal Form
+        document.getElementById('personalBookingForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            const token = localStorage.getItem('access_token');
+
+            const bookingData = {
+                first_name: document.getElementById('firstName').value.trim(),
+                last_name: document.getElementById('lastName').value.trim(),
+                email: document.getElementById('persEmail').value.trim(),
+                phone_number: document.getElementById('persPhone').value.trim(),
+                check_in: document.getElementById('persStartDate').value,
+                check_out: document.getElementById('persEndDate').value,
+                pax: parseInt(document.getElementById('persGuestCount').value),
+                room_type_id: parseInt(document.getElementById('persRoomType').value),
+                booking_type: 'FACULTY_PERSONAL',
+                is_international: false,
+                is_bulk: false,
+                purpose_of_visit: document.getElementById('persPurpose').value.trim(),
+                special_requirements: document.getElementById('persSpecialReq').value.trim(),
+                gst_number: '',
+                relation_to_campus: document.getElementById('relation_to_user').value.trim() || 'Faculty - Personal',
+                reservation_type: 'personal'
+            };
+
+            try {
+                const res = await fetch('http://localhost:8000/api/v1/booking/submit-booking', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(bookingData)
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    showAlert('success', `✅ Personal reservation submitted! Booking ID: <strong>${data.data.booking_id}</strong>`);
+                    document.getElementById('personalBookingForm').reset();
+                    document.getElementById('persEmail').value = user.email || '';
+                } else {
+                    showAlert('danger', `❌ ${data.detail || data.message || 'Submission failed'}`);
+                }
+            } catch (err) {
+                showAlert('danger', `❌ Error: ${err.message}`);
+            }
+        });
+
+        // Style select dropdowns
+        document.addEventListener('DOMContentLoaded', function() {
+            function updateSelect(sel) {
+                if (!sel) return;
+                sel.classList.toggle('empty', !sel.value || sel.value === '0');
+            }
+            ['gender', 'profRoomType', 'persRoomType'].forEach(id => {
+                const sel = document.getElementById(id);
+                if (!sel) return;
+                updateSelect(sel);
+                sel.addEventListener('change', () => updateSelect(sel));
+            });
+        });
+    </script>
+
+    <!-- MY RESERVATIONS MODAL -->
+    <div class="modal fade" id="myReservationsModal" tabindex="-1" aria-labelledby="myReservationsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="myReservationsModalLabel">
+                        <i class="fa fa-history me-2"></i> My Reservations
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="min-height: 400px;">
+                    <div id="reservationsLoading" class="text-center py-5">
+                        <div class="spinner-border text-danger" role="status"></div>
+                        <p class="mt-2 text-muted">Loading your reservations...</p>
+                    </div>
+                    <div id="reservationsEmpty" class="text-center py-5" style="display: none;">
+                        <i class="fa fa-inbox" style="font-size:4rem;color:#ccc;"></i>
+                        <h4 class="text-muted mt-3">No Reservations Found</h4>
+                        <p class="text-muted">You haven't made any reservations yet.</p>
+                    </div>
+                    <div id="reservationsList" class="row"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const MY_RES_API = 'http://localhost:8000/api/v1';
+
+        function openMyReservations() {
+            const modal = new bootstrap.Modal(document.getElementById('myReservationsModal'));
+            modal.show();
+            loadMyReservations();
+        }
+
+        async function loadMyReservations() {
+            const loading = document.getElementById('reservationsLoading');
+            const empty = document.getElementById('reservationsEmpty');
+            const list = document.getElementById('reservationsList');
+
+            loading.style.display = 'block';
+            empty.style.display = 'none';
+            list.innerHTML = '';
+
+            const token = localStorage.getItem('access_token');
+            if (!token) {
+                loading.style.display = 'none';
+                empty.innerHTML = `
+                    <i class="fa fa-lock" style="font-size:4rem;color:#ccc;"></i>
+                    <h4 class="text-muted mt-3">Please Login</h4>
+                    <p class="text-muted">You need to be logged in to view your reservations.</p>
+                    <a href="login.html" class="btn btn-danger mt-2">Login Now</a>
+                `;
+                empty.style.display = 'block';
+                return;
+            }
+
+            try {
+                const response = await fetch(`${MY_RES_API}/booking/my-bookings`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+                loading.style.display = 'none';
+
+                if (data.status === 'success' && data.data.bookings && data.data.bookings.length > 0) {
+                    list.innerHTML = data.data.bookings.map(b => renderResCard(b)).join('');
+                } else {
+                    empty.style.display = 'block';
+                }
+            } catch (err) {
+                loading.style.display = 'none';
+                list.innerHTML = `<div class="col-12"><div class="alert alert-danger">Error: ${err.message}</div></div>`;
+            }
+        }
+
+        function renderResCard(b) {
+            const isProfessional = b.booking_type === 'FACULTY_PROFESSIONAL';
+            const displayName = isProfessional ? b.first_name : `${b.first_name} ${b.last_name || ''}`.trim();
+
+            let statusBadge = '', borderColor = '';
+            switch (b.status) {
+                case 'PENDING': statusBadge = '<span class="badge bg-warning text-dark">⏳ Pending</span>'; borderColor = 'border-warning'; break;
+                case 'MANAGER_APPROVED': case 'FIC_APPROVED': case 'DEAN_APPROVED':
+                    statusBadge = '<span class="badge bg-info">✓ Approved - Awaiting Room</span>'; borderColor = 'border-info'; break;
+                case 'OPERATOR_ALLOCATED': statusBadge = '<span class="badge bg-success">🏠 Room Allocated</span>'; borderColor = 'border-success'; break;
+                case 'CHECKED_IN': statusBadge = '<span class="badge bg-primary">🛎️ Checked In</span>'; borderColor = 'border-primary'; break;
+                case 'CHECKED_OUT': statusBadge = '<span class="badge bg-secondary">✓ Checked Out</span>'; borderColor = 'border-secondary'; break;
+                case 'REJECTED': statusBadge = '<span class="badge bg-danger">❌ Rejected</span>'; borderColor = 'border-danger'; break;
+                default: statusBadge = `<span class="badge bg-secondary">${b.status}</span>`; borderColor = 'border-secondary';
+            }
+
+            let typeLabel = b.booking_type || 'Guest';
+            if (b.booking_type === 'FACULTY_PROFESSIONAL') typeLabel = 'Faculty (Professional)';
+            else if (b.booking_type === 'FACULTY_PERSONAL') typeLabel = 'Faculty (Personal)';
+
+            return `
+                <div class="col-lg-6 col-md-12 mb-3">
+                    <div class="card shadow-sm border-start border-4 ${borderColor}" style="border-radius: 10px;">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="card-title mb-1">${isProfessional ? '📢' : '👤'} ${displayName}</h5>
+                                ${statusBadge}
+                            </div>
+                            <div class="row small text-muted mb-2">
+                                <div class="col-6"><strong>Booking #:</strong> ${b.booking_id}</div>
+                                <div class="col-6"><strong>Type:</strong> ${typeLabel}</div>
+                            </div>
+                            <div class="row small mb-2">
+                                <div class="col-6"><i class="fa fa-calendar text-danger"></i> <strong>Check In:</strong> ${b.check_in}</div>
+                                <div class="col-6"><i class="fa fa-calendar text-danger"></i> <strong>Check Out:</strong> ${b.check_out}</div>
+                            </div>
+                            <div class="row small mb-2">
+                                <div class="col-6"><i class="fa fa-users text-primary"></i> <strong>Guests:</strong> ${b.pax}</div>
+                                <div class="col-6"><i class="fa fa-bed text-success"></i> <strong>Room:</strong> ${b.room_type || 'N/A'}</div>
+                            </div>
+                            ${b.purpose_of_visit ? `<div class="small bg-light rounded p-2 mb-2"><strong>Purpose:</strong> ${b.purpose_of_visit}</div>` : ''}
+                            ${b.status === 'REJECTED' && b.rejection_reason ? `<div class="alert alert-danger py-2 px-3 mb-2 small"><strong>Rejection Reason:</strong> ${b.rejection_reason}</div>` : ''}
+                            <div class="small text-muted"><i class="fa fa-clock-o"></i> Submitted: ${b.submitted_at || 'N/A'}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+
+</body>
+</html>

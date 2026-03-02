@@ -146,17 +146,85 @@
     <!-- Header End -->
 
     <!-- Contact Section Begin -->
-    <section class="contact-section">
+    <section class="contact-section spad">
         <div class="container">
-            <div class="row mb-5">
-                <div class="col">
+            <div class="row mb-4">
+                <div class="col-lg-8">
                     <h2>My Reservations</h2>
+                    <p class="text-muted mt-2" id="userGreeting">Welcome back!</p>
+                </div>
+                <div class="col-lg-4 text-end">
+                    <a href="booking.html" class="btn btn-danger">+ New Reservation</a>
                 </div>
             </div>
+
+            <!-- Stats Row -->
+            <div class="row mb-4">
+                <div class="col-md-3 col-6 mb-2">
+                    <div class="card text-center shadow-sm border-0">
+                        <div class="card-body py-3">
+                            <h3 class="mb-0 text-warning" id="statPending">-</h3>
+                            <small class="text-muted">Pending</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-2">
+                    <div class="card text-center shadow-sm border-0">
+                        <div class="card-body py-3">
+                            <h3 class="mb-0 text-success" id="statApproved">-</h3>
+                            <small class="text-muted">Approved</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-2">
+                    <div class="card text-center shadow-sm border-0">
+                        <div class="card-body py-3">
+                            <h3 class="mb-0 text-danger" id="statRejected">-</h3>
+                            <small class="text-muted">Rejected</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-2">
+                    <div class="card text-center shadow-sm border-0">
+                        <div class="card-body py-3">
+                            <h3 class="mb-0 text-primary" id="statTotal">-</h3>
+                            <small class="text-muted">Total</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <ul class="nav nav-tabs mb-4" id="bookingTabs" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active" data-status="" type="button">
+                        All
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-status="PENDING" type="button">
+                        ⏳ Pending <span class="badge bg-warning text-dark ms-1" id="tabPending">0</span>
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-status="APPROVED" type="button">
+                        ✅ Approved <span class="badge bg-success ms-1" id="tabApproved">0</span>
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-status="REJECTED" type="button">
+                        ❌ Rejected <span class="badge bg-danger ms-1" id="tabRejected">0</span>
+                    </button>
+                </li>
+            </ul>
+
+            <!-- Booking Cards -->
             <div class="row" id="booking-details">
-                <!-- Booking cards will be dynamically inserted here -->
-                <div class="col align-center">
-                    Loading reservations please wait...
+                <div class="col text-center py-5">
+                    <div class="spinner-border text-danger" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2 text-muted">Loading reservations...</p>
                 </div>
             </div>
         </div>
@@ -242,6 +310,206 @@
 
     <script src="src/js/vfast/api-client.js"></script>
     <script src="src/js/vfast/user.js" defer></script>
+    
+    <script>
+        let allBookings = [];
+        let currentFilter = '';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check login
+            const token = localStorage.getItem('access_token');
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+
+            if (!token || !user.id) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Display user greeting
+            document.getElementById('userGreeting').textContent = 
+                `Welcome back, ${user.name || 'User'}! (${user.user_type || 'Guest'})`;
+
+            // Tab click handlers
+            document.querySelectorAll('#bookingTabs .nav-link').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    document.querySelectorAll('#bookingTabs .nav-link').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.dataset.status;
+                    renderBookings();
+                });
+            });
+
+            // Load bookings
+            loadBookings();
+        });
+
+        async function loadBookings() {
+            const container = document.getElementById('booking-details');
+            
+            try {
+                const token = localStorage.getItem('access_token');
+                const res = await fetch('http://localhost:8000/api/v1/booking/my-bookings', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                const data = await res.json();
+
+                if (data.status === 'success') {
+                    allBookings = data.data.bookings;
+                    updateStats();
+                    renderBookings();
+                } else {
+                    container.innerHTML = `
+                        <div class="col-12">
+                            <div class="alert alert-danger">
+                                Failed to load bookings: ${data.detail || 'Unknown error'}
+                            </div>
+                        </div>
+                    `;
+                }
+            } catch (err) {
+                container.innerHTML = `
+                    <div class="col-12">
+                        <div class="alert alert-danger">Error: ${err.message}</div>
+                    </div>
+                `;
+            }
+        }
+
+        function updateStats() {
+            const pending = allBookings.filter(b => b.status === 'PENDING').length;
+            const approved = allBookings.filter(b => b.status === 'APPROVED').length;
+            const rejected = allBookings.filter(b => b.status === 'REJECTED').length;
+
+            document.getElementById('statPending').textContent = pending;
+            document.getElementById('statApproved').textContent = approved;
+            document.getElementById('statRejected').textContent = rejected;
+            document.getElementById('statTotal').textContent = allBookings.length;
+
+            document.getElementById('tabPending').textContent = pending;
+            document.getElementById('tabApproved').textContent = approved;
+            document.getElementById('tabRejected').textContent = rejected;
+        }
+
+        function renderBookings() {
+            const container = document.getElementById('booking-details');
+            let filtered = allBookings;
+
+            if (currentFilter) {
+                filtered = allBookings.filter(b => b.status === currentFilter);
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="col-12 text-center py-5">
+                        <i class="fa fa-inbox fa-3x text-muted mb-3"></i>
+                        <h5 class="text-muted">No ${currentFilter.toLowerCase() || ''} reservations found</h5>
+                        <p class="text-muted">Your booking history will appear here.</p>
+                        <a href="booking.html" class="btn btn-outline-danger mt-2">Make a Reservation</a>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filtered.map(b => renderCard(b)).join('');
+        }
+
+        function renderCard(b) {
+            const isProfessional = b.booking_type === 'FACULTY_PROFESSIONAL';
+            const displayName = isProfessional ? b.first_name : `${b.first_name} ${b.last_name || ''}`.trim();
+            const displaySubtitle = isProfessional ? `Department: ${b.last_name}` : '';
+
+            // Status badge styles
+            let statusBadge = '';
+            let borderClass = '';
+            if (b.status === 'PENDING') {
+                statusBadge = '<span class="badge bg-warning text-dark">⏳ Pending</span>';
+                borderClass = 'border-warning';
+            } else if (b.status === 'APPROVED') {
+                statusBadge = '<span class="badge bg-success">✅ Approved</span>';
+                borderClass = 'border-success';
+            } else if (b.status === 'REJECTED') {
+                statusBadge = '<span class="badge bg-danger">❌ Rejected</span>';
+                borderClass = 'border-danger';
+            } else {
+                statusBadge = `<span class="badge bg-secondary">${b.status}</span>`;
+                borderClass = 'border-secondary';
+            }
+
+            // Format booking type
+            let typeLabel = b.booking_type || 'Guest';
+            if (b.booking_type === 'FACULTY_PROFESSIONAL') typeLabel = 'Faculty (Professional)';
+            else if (b.booking_type === 'FACULTY_PERSONAL') typeLabel = 'Faculty (Personal)';
+            else if (b.booking_type === 'STUDENT') typeLabel = 'Student/Alumni';
+
+            return `
+                <div class="col-lg-6 col-md-12 mb-3">
+                    <div class="card shadow-sm border-start border-4 ${borderClass}" style="border-radius: 10px;">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div>
+                                    <h5 class="card-title mb-1">
+                                        ${isProfessional ? '📢' : '👤'} ${displayName}
+                                    </h5>
+                                    ${displaySubtitle ? `<small class="text-muted">${displaySubtitle}</small>` : ''}
+                                </div>
+                                ${statusBadge}
+                            </div>
+                            
+                            <div class="row small text-muted mb-2">
+                                <div class="col-6">
+                                    <strong>Booking #:</strong> ${b.booking_id}
+                                </div>
+                                <div class="col-6">
+                                    <strong>Type:</strong> ${typeLabel}
+                                </div>
+                            </div>
+
+                            <div class="row small mb-2">
+                                <div class="col-6">
+                                    <i class="fa fa-calendar text-danger"></i> 
+                                    <strong>Check In:</strong> ${b.check_in}
+                                </div>
+                                <div class="col-6">
+                                    <i class="fa fa-calendar text-danger"></i> 
+                                    <strong>Check Out:</strong> ${b.check_out}
+                                </div>
+                            </div>
+
+                            <div class="row small mb-2">
+                                <div class="col-6">
+                                    <i class="fa fa-users text-primary"></i> 
+                                    <strong>Guests:</strong> ${b.pax}
+                                </div>
+                                <div class="col-6">
+                                    <i class="fa fa-bed text-success"></i> 
+                                    <strong>Room:</strong> ${b.room_type || 'N/A'}
+                                </div>
+                            </div>
+
+                            ${b.purpose_of_visit ? `
+                                <div class="small bg-light rounded p-2 mb-2">
+                                    <strong>Purpose:</strong> ${b.purpose_of_visit}
+                                </div>
+                            ` : ''}
+
+                            ${b.status === 'REJECTED' && b.rejection_reason ? `
+                                <div class="alert alert-danger py-2 px-3 mb-2 small">
+                                    <strong>Rejection Reason:</strong> ${b.rejection_reason}
+                                </div>
+                            ` : ''}
+
+                            <div class="small text-muted">
+                                <i class="fa fa-clock-o"></i> Submitted: ${b.submitted_at || 'N/A'}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
     
     <!-- Logout Script added for button -->
     <script defer>

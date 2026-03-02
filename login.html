@@ -78,7 +78,13 @@
                         <img src="src/img/logo.png" alt="logo" class="img-fluid m-auto my-3 logo-img">
                         <h3>Login with Google</h3>
                     </div>
-                    <!-- <div class="d-flex justify-content-center mb-5">
+                    <div class="d-flex flex-column align-items-center mb-5">
+                            <select id="utype" class="form-select w-auto" style="min-width: 180px;">
+                            <option value="0" disabled selected hidden>Login as</option>
+                            <option value="student_alumni">Student / Alumni</option>
+                            <option value="faculty">Faculty</option>
+                        </select>
+                     <div style="margin-top: 15px;">
                         <div id="g_id_onload"
                             data-client_id="464794475879-742k1rji25rb0bg25lp0cv0c9l5n1ljj.apps.googleusercontent.com"
                             data-context="signin"
@@ -89,6 +95,7 @@
                             data-itp_support="true"
                             data-ux_mode="reload">
                         </div>
+                    </div>
                         <div class="g_id_signin" 
                             data-type="standard" 
                             data-size="large" 
@@ -97,15 +104,31 @@
                             data-shape="rectangular" 
                             data-logo_alignment="left">
                         </div>
-                    </div> -->
-                    
-                    <!-- Temporary Login Button -->
-                    <div class="d-flex justify-content-center mb-3">
-                        <button type="button" class="btn btn-primary btn-lg" onclick="temporaryLoginWorkaround()">
-                            Temporary Login (Development)
-                        </button>
+
+                        <!-- DEV ONLY: Temporary Login Buttons -->
+                        <div style="margin-top:24px; text-align:center; width:100%;">
+                            <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+                                <hr style="flex:1;border-color:#ccc;">
+                                <span style="font-size:12px;color:#888;">Temporary Login (Dev Only)</span>
+                                <hr style="flex:1;border-color:#ccc;">
+                            </div>
+                            <button id="devStudentLoginBtn" type="button"
+                                style="background:#3b82f6;color:#fff;border:none;border-radius:6px;
+                                       padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer;
+                                       width:100%;display:flex;align-items:center;justify-content:center;gap:8px;
+                                       margin-bottom:10px;">
+                                👨‍🎓 Temp Student Login (Rahul Sharma)
+                            </button>
+                            <button id="devFacultyLoginBtn" type="button"
+                                style="background:#8b5cf6;color:#fff;border:none;border-radius:6px;
+                                       padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer;
+                                       width:100%;display:flex;align-items:center;justify-content:center;gap:8px;">
+                                👩‍🏫 Temp Faculty Login (Dr. Meera Iyer)
+                            </button>
+                            <p style="font-size:11px;color:#aaa;margin-top:8px;">Local testing only - Remove before production</p>
+                        </div>
+                        <!-- END DEV -->
                     </div>
-                    
                 </div>
             </div>
         </div>
@@ -126,11 +149,11 @@
                             </div>
                             <p>We inspire and reach millions of travelers<br /> across 90 local websites</p>
                             <div class="fa-social">
-                                <a href="#" title="Facebook"><i class="fa fa-facebook"></i></a>
-                                <a href="#" title="Twitter"><i class="fa fa-twitter"></i></a>
+                                <a href="https://www.facebook.com/universitybitspilani/" title="Facebook"><i class="fa fa-facebook"></i></a>
+                                <a href="https://x.com/bitspilaniindia?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor" title="Twitter"><i class="fa fa-twitter"></i></a>
                                 <!-- <a href="#" title="Tripadvisor"><i class="fa fa-tripadvisor"></i></a> -->
-                                <a href="#" title="Instagram"><i class="fa fa-instagram"></i></a>
-                                <a href="#" title="YouTube"><i class="fa fa-youtube-play"></i></a>
+                                <a href="https://www.instagram.com/bitspilaniofficial/" title="Instagram"><i class="fa fa-instagram"></i></a>
+                                <a href="https://www.youtube.com/@BITSpilaniTechMedia" title="YouTube"><i class="fa fa-youtube-play"></i></a>
                             </div>
                         </div>
                     </div>
@@ -191,14 +214,81 @@
 
     <script src="src/js/main.js"></script>
     <script src="src/js/vfast/api-client.js"></script>
-    <script src="src/js/google-login.js" defer></script>
+    <script src="src/js/vfast/google-login.js" defer></script>
 
     <script>
         // Redirect to dashboard if user is already logged in
         getAuthToken() && window.location.replace("./dashboard.html");
     </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () 
+    {
+    function updateSelect(sel)
+    {
+    const val = sel.value;
+    if (val === null || val === '0') 
+    {
+      sel.classList.add('empty');
+    }
+    else 
+    {
+      sel.classList.remove('empty');
+    }
+    }
+    const selects = [document.getElementById('utype')];
+
+    selects.forEach(function (sel) 
+    {
+    if (!sel) return; 
+    updateSelect(sel);
+    sel.addEventListener('change', function () { updateSelect(sel); });
+    sel.addEventListener('blur', function () { updateSelect(sel); });
+    });
+    });
+</script>
 
     <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <!-- DEV login handler -->
+    <script>
+        // Helper function for dev login
+        async function devLogin(role) {
+            const btn = role === 'student' ? document.getElementById('devStudentLoginBtn') : document.getElementById('devFacultyLoginBtn');
+            const originalText = btn.textContent;
+            btn.disabled = true;
+            btn.textContent = 'Logging in…';
+            
+            try {
+                const res = await fetch(`http://localhost:8000/api/v1/auth/user/dev-login-${role}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    localStorage.setItem('access_token', data.data.access_token);
+                    localStorage.setItem('user', JSON.stringify(data.data.user));
+                    // Redirect based on role
+                    if (data.data.user.user_type === 'FACULTY') {
+                        window.location.href = 'faculty-booking.html';
+                    } else {
+                        window.location.href = 'booking.html';
+                    }
+                } else {
+                    alert('Dev login failed: ' + JSON.stringify(data));
+                    btn.disabled = false;
+                    btn.textContent = originalText;
+                }
+            } catch (err) {
+                alert('Error: ' + err.message + '\n\nMake sure the backend is running on localhost:8000');
+                btn.disabled = false;
+                btn.textContent = originalText;
+            }
+        }
+
+        document.getElementById('devStudentLoginBtn').addEventListener('click', () => devLogin('student'));
+        document.getElementById('devFacultyLoginBtn').addEventListener('click', () => devLogin('faculty'));
+    </script>
+    <!-- END DEV -->
 </body>
 
 </html>
